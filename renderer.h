@@ -1,7 +1,8 @@
-#ifndef QT_FORK_AWESOME_MAIN
-#define QT_FORK_AWESOME_MAIN
+#ifndef QT_FORK_AWESOME_RENDERER
+#define QT_FORK_AWESOME_RENDERER
 
 #include "./global.h"
+#include "./iconfwd.h"
 
 #include <QString>
 
@@ -15,12 +16,6 @@ QT_FORWARD_DECLARE_CLASS(QSize)
 QT_FORWARD_DECLARE_CLASS(QPixmap)
 
 namespace QtForkAwesome {
-
-using IconBaseType = std::remove_reference_t<decltype(QChar().unicode())>;
-
-enum class Icon : IconBaseType {
-#include "private/icons.h"
-};
 
 class QT_FORK_AWESOME_EXPORT Renderer {
     struct InternalData;
@@ -40,4 +35,4 @@ private:
 
 } // namespace QtForkAwesome
 
-#endif // QT_FORK_AWESOME_MAIN
+#endif // QT_FORK_AWESOME_RENDERER

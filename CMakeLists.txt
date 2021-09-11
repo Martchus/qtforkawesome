@@ -18,9 +18,9 @@ set(META_ADD_DEFAULT_CPP_UNIT_TEST_APPLICATION OFF)
 project(${META_PROJECT_NAME})
 
 # add project files
-set(HEADER_FILES qtforkawesome.h)
-set(SRC_FILES qtforkawesome.cpp)
-set(QT_TESTS rendering)
+set(HEADER_FILES renderer.h icon.h iconfwd.h)
+set(SRC_FILES renderer.cpp)
+set(QT_TESTS renderer)
 set(DOC_FILES README.md)
 
 # find/download ForkAwesome's font file and icon definitions

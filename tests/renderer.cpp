@@ -1,4 +1,5 @@
-#include "../qtforkawesome.h"
+#include "../icon.h"
+#include "../renderer.h"
 
 #include <c++utilities/tests/testutils.h>
 
@@ -34,4 +35,4 @@ void RendererTests::testRender()
 }
 
 QTEST_MAIN(RendererTests)
-#include "rendering.moc"
+#include "renderer.moc"

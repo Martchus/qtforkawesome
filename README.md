@@ -32,7 +32,8 @@ The installation provides a CMake find module and a pkg-config file. Once
 configured, the library is fairly simple to use:
 
 ```
-#include <qtforkawesome/qtforkawesome.h>
+#include <qtforkawesome/icon.h>
+#include <qtforkawesome/renderer.h>
 
 auto renderer = QtForkAwesome::Renderer();
 renderer.pixmap(QtForkAwesome::Icon::Globe, QSize(64, 64), Qt::black);
