@@ -46,6 +46,11 @@ for my $icon (@$icons) {
     my $category     = join ',', @$categories;
     my $camelized_id = camelize $id;
     $camelized_id = "Icon$camelized_id" if $camelized_id =~ qr/^\d+.*/;
-    print $enum_output "$camelized_id = 0x$unicode, /**< $id: name: $name, created: $created, category: $category */\n";
-    print $id_output   "{ QStringLiteral(\"$id\"), Icon::$camelized_id },\n";
+    print $enum_output "$camelized_id = 0x$unicode, /**< $id: name: $name, created: $created, category: $category */\n"
+        or die "Can't write to file \"$enum_output_file\": $!\n";
+    print $id_output "\{ QStringLiteral(\"$id\"), Icon::$camelized_id \},\n"
+        or die "Can't write to file \"$id_output_file\": $!\n";
 }
+
+close $enum_output or die "Can't close to file \"$enum_output_file\": $!\n";
+close $id_output   or die "Can't close to file \"$id_output_file\": $!\n";
