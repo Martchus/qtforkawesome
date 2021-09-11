@@ -18,8 +18,8 @@ set(META_ADD_DEFAULT_CPP_UNIT_TEST_APPLICATION OFF)
 project(${META_PROJECT_NAME})
 
 # add project files
-set(HEADER_FILES renderer.h icon.h iconfwd.h)
-set(SRC_FILES renderer.cpp)
+set(HEADER_FILES renderer.h icon.h iconfwd.h utils.h)
+set(SRC_FILES renderer.cpp utils.cpp)
 set(QT_TESTS renderer)
 set(DOC_FILES README.md)
 
@@ -68,12 +68,13 @@ list(APPEND RES_FILES "${RES_FILE_PATH}")
 find_program(PERL perl)
 set(GENERATED_HEADERS_PATH "${CMAKE_CURRENT_BINARY_DIR}/headers")
 set(ICONS_HEADER_FILE "${GENERATED_HEADERS_PATH}/private/icons.h")
+set(ID_MAPPING_HEADER_FILE "${GENERATED_HEADERS_PATH}/private/idmapping.h")
 file(MAKE_DIRECTORY "${GENERATED_HEADERS_PATH}/private")
-list(APPEND SRC_FILES "${ICONS_HEADER_FILE}")
+list(APPEND SRC_FILES "${ICONS_HEADER_FILE}" "${ID_MAPPING_HEADER_FILE}")
 add_custom_command(
-    OUTPUT "${ICONS_HEADER_FILE}"
+    OUTPUT "${ICONS_HEADER_FILE}" "${ID_MAPPING_HEADER_FILE}"
     COMMAND "${PERL}" "${CMAKE_CURRENT_SOURCE_DIR}/scripts/yaml2enum.pl" "${FORK_AWESOME_ICON_DEFINITIONS}"
-            "${ICONS_HEADER_FILE}"
+            "${ICONS_HEADER_FILE}" "${ID_MAPPING_HEADER_FILE}"
     DEPENDS "${FORK_AWESOME_ICON_DEFINITIONS}"
     COMMENT "Icon header")
 

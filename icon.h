@@ -6,6 +6,7 @@
 namespace QtForkAwesome {
 
 enum class Icon : IconBaseType {
+    Invalid, /**< invalid, used by QtForkAwesome::iconFromId() to indicate failure */
 #include "private/icons.h"
 };
 
