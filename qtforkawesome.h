@@ -19,7 +19,7 @@ namespace QtForkAwesome {
 using IconBaseType = std::remove_reference_t<decltype(QChar().unicode())>;
 
 enum class Icon : IconBaseType {
-#include "icons.h"
+#include "private/icons.h"
 };
 
 class QT_FORK_AWESOME_EXPORT Renderer {

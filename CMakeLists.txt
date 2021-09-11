@@ -67,9 +67,9 @@ list(APPEND RES_FILES "${RES_FILE_PATH}")
 # create rule for generating header file
 find_program(PERL perl)
 set(GENERATED_HEADERS_PATH "${CMAKE_CURRENT_BINARY_DIR}/headers")
-set(ICONS_HEADER_FILE "${GENERATED_HEADERS_PATH}/icons.h")
+set(ICONS_HEADER_FILE "${GENERATED_HEADERS_PATH}/private/icons.h")
+file(MAKE_DIRECTORY "${GENERATED_HEADERS_PATH}/private")
 list(APPEND SRC_FILES "${ICONS_HEADER_FILE}")
-file(MAKE_DIRECTORY "${GENERATED_HEADERS_PATH}")
 add_custom_command(
     OUTPUT "${ICONS_HEADER_FILE}"
     COMMAND "${PERL}" "${CMAKE_CURRENT_SOURCE_DIR}/scripts/yaml2enum.pl" "${FORK_AWESOME_ICON_DEFINITIONS}"
@@ -114,5 +114,5 @@ target_include_directories(${META_TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${GENERA
 # install generated header
 install(
     FILES "${ICONS_HEADER_FILE}"
-    DESTINATION "${INCLUDE_SUBDIR}/${META_PROJECT_NAME}"
+    DESTINATION "${INCLUDE_SUBDIR}/${META_PROJECT_NAME}/private"
     COMPONENT header)
