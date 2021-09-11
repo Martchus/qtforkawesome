@@ -2,8 +2,6 @@
 use strict;
 use warnings;
 use utf8;
-use feature 'signatures';
-no warnings 'experimental::signatures';
 
 # use either YAML::XS or YAML
 my $parse_yaml
@@ -31,9 +29,6 @@ die "No icons present in \"$yaml_file\".\n" unless ref $icons eq 'ARRAY' && @$ic
 open my $enum_output, '>:encoding(UTF-8)', $enum_output_file or die "Can't open output file \"$enum_output_file\": $!\n";
 open my $id_output,   '>:encoding(UTF-8)', $id_output_file   or die "Can't open output file \"$id_output_file\": $!\n";
 
-# define function to camelize IDs
-sub camelize ($s) { $s =~ s/(-)?([\w']+)/\u\L$2/g; $s }
-
 # generate enum values
 for my $icon (@$icons) {
     my $id         = $icon->{id};
@@ -44,7 +39,8 @@ for my $icon (@$icons) {
     die "Icon definition in \"$yaml_file\" is incomplete.\n" unless $id && $name && $unicode;
 
     my $category     = join ',', @$categories;
-    my $camelized_id = camelize $id;
+    my $camelized_id = $id;
+    $camelized_id =~ s/(-)?([\w']+)/\u\L$2/g;
     $camelized_id = "Icon$camelized_id" if $camelized_id =~ qr/^\d+.*/;
     print $enum_output "$camelized_id = 0x$unicode, /**< $id: name: $name, created: $created, category: $category */\n"
         or die "Can't write to file \"$enum_output_file\": $!\n";
