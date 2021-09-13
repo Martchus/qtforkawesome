@@ -26,3 +26,4 @@ find_package(c++utilities${CONFIGURATION_PACKAGE_SUFFIX} 5.5.0 REQUIRED)
 find_package(qtutilities${CONFIGURATION_PACKAGE_SUFFIX_QTUTILITIES} 6.3.0 REQUIRED)
 
 add_subdirectory(${META_PROJECT_NAME})
+add_subdirectory(iconengineplugin)

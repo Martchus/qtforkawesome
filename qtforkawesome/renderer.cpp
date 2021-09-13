@@ -56,7 +56,7 @@ Renderer::Renderer(const QByteArray &fontData)
  */
 Renderer::~Renderer()
 {
-    if (m_d->id != InternalData::invalidId) {
+    if (QCoreApplication::instance() && m_d->id != InternalData::invalidId) {
         QFontDatabase::removeApplicationFont(m_d->id);
     }
 }

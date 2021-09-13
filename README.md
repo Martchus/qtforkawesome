@@ -46,3 +46,10 @@ renderer.pixmap(QtForkAwesome::Icon::Globe, QSize(64, 64), Qt::black);
 ```
 
 There's also `renderer.render(…)` which takes a `QPainter` directly.
+
+A `QIconEnginePlugin` is provided as well. When it is loaded one can
+create a `QIcon` using a file name with `.fa` extension, e.g.:
+
+```
+const auto icon = QIcon(QStringLiteral("qrcode:blue.fa"));
+```
