@@ -14,7 +14,7 @@ use_cpp_utilities(ONLY_HEADERS VISIBILITY PUBLIC)
 use_qt_utilities(ONLY_HEADERS VISIBILITY PRIVATE)
 
 # use main qtforkawesome library
-find_package(qtforkawesome ${META_APP_VERSION} REQUIRED)
+find_package(qtforkawesome${CONFIGURATION_PACKAGE_SUFFIX_QTFORKAWESOME} ${META_APP_VERSION} REQUIRED)
 use_qt_fork_awesome()
 
 include(BasicConfig)
