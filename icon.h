@@ -5,6 +5,9 @@
 
 namespace QtForkAwesome {
 
+/*!
+ * \brief The Icon enum specifies a ForkAwesome icon for calling QtForkAwesome::Renderer::render().
+ */
 enum class Icon : IconBaseType {
     Invalid, /**< invalid, used by QtForkAwesome::iconFromId() to indicate failure */
 #include "private/icons.h"
