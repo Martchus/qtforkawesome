@@ -1,6 +1,3 @@
-#ifndef QT_FORK_AWESOME_UTILS
-#define QT_FORK_AWESOME_UTILS
-
 #include "./utils.h"
 #include "./icon.h"
 
@@ -25,5 +22,3 @@ Icon iconFromId(const QString &id)
 }
 
 } // namespace QtForkAwesome
-
-#endif // QT_FORK_AWESOME_UTILS
