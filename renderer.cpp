@@ -30,7 +30,7 @@ Renderer::InternalData::InternalData(int id)
 /*!
  *
  * \class QtForkAwesome::Renderer
- * \brief Allows rendering a QtForkAwesome::Icon.
+ * \brief Allows rendering a QtForkAwesome::Icon (or an arbitrary QChar using an arbitrary font file).
  */
 
 /*!
@@ -72,7 +72,7 @@ Renderer::operator bool() const
 /*!
  * \brief Renders the specified \a icon using the specified \a painter.
  */
-void Renderer::render(Icon icon, QPainter *painter, const QRect &rect, const QColor &color)
+void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const QRect &rect, const QColor &color)
 {
     if (!*this) {
         return;
@@ -82,14 +82,14 @@ void Renderer::render(Icon icon, QPainter *painter, const QRect &rect, const QCo
     painter->save();
     painter->setFont(font);
     painter->setPen(color);
-    painter->drawText(rect, QString(QChar(static_cast<IconBaseType>(icon))), QTextOption(Qt::AlignCenter));
+    painter->drawText(rect, QString(character), QTextOption(Qt::AlignCenter));
     painter->restore();
 }
 
 /*!
- * \brief Renders the specified \a icon as pixmap of the specified \a size.
+ * \brief Renders the specified \a character as pixmap of the specified \a size.
  */
-QPixmap QtForkAwesome::Renderer::pixmap(Icon icon, const QSize &size, const QColor &color)
+QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QColor &color)
 {
     const auto scaleFactor =
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
@@ -103,6 +103,14 @@ QPixmap QtForkAwesome::Renderer::pixmap(Icon icon, const QSize &size, const QCol
     render(icon, &painter, QRect(QPoint(), scaledSize), color);
     pm.setDevicePixelRatio(scaleFactor);
     return pm;
+}
+
+/*!
+ * \brief Renders the specified \a icon as pixmap of the specified \a size.
+ */
+QPixmap Renderer::pixmap(Icon icon, const QSize &size, const QColor &color)
+{
+    return pixmap(QChar(static_cast<IconBaseType>(icon)), size, color);
 }
 
 } // namespace QtForkAwesome
