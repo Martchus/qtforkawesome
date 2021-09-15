@@ -17,6 +17,16 @@ use_qt_utilities(ONLY_HEADERS VISIBILITY PRIVATE)
 find_package(qtforkawesome${CONFIGURATION_PACKAGE_SUFFIX_QTFORKAWESOME} ${META_APP_VERSION} REQUIRED)
 use_qt_fork_awesome()
 
+# use Qt Gui module
+list(APPEND ADDITIONAL_QT_MODULES Gui)
+
+# configure styling support
+option(ENABLE_STYLE_SUPPORT "whether to apply icon mode via QStyle (pulls in Qt Widgets dependency)" OFF)
+if (ENABLE_STYLE_SUPPORT)
+    list(APPEND ADDITIONAL_QT_MODULES Widgets)
+    set(META_CUSTOM_CONFIG "#define ${META_PROJECT_VARNAME}_ENABLE_STYLE_SUPPORT 1\n")
+endif ()
+
 include(BasicConfig)
 include(QtGuiConfig)
 include(QtConfig)
