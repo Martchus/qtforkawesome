@@ -10,7 +10,9 @@ namespace QtForkAwesome {
  */
 enum class Icon : IconBaseType {
     Invalid, /**< invalid, used by QtForkAwesome::iconFromId() to indicate failure */
+#ifndef Q_MOC_RUN // workaround moc parse errors on Fedora 33 and 34 builds
 #include "private/icons.h"
+#endif
 };
 
 } // namespace QtForkAwesome
