@@ -8,7 +8,7 @@
 
 namespace QtForkAwesome {
 
-class QT_FORK_AWESOME_ICON_ENGINE_EXPORT IconEnginePlugin : public QIconEnginePlugin {
+class QT_FORK_AWESOME_ICON_ENGINE_EXPORT ForkAwesomeIconEnginePlugin : public QIconEnginePlugin {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QIconEngineFactoryInterface" FILE "qtforkawesomeiconengine.json")
 
@@ -19,7 +19,7 @@ private:
     Renderer m_renderer;
 };
 
-QIconEngine *IconEnginePlugin::create(const QString &file)
+QIconEngine *ForkAwesomeIconEnginePlugin::create(const QString &file)
 {
     auto *const engine = new IconEngine(m_renderer);
     if (!file.isNull()) {
