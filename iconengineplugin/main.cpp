@@ -2,9 +2,17 @@
 
 #include "../qtforkawesome/renderer.h"
 
+#include "resources/qtconfig.h"
+
 #include <QIcon>
 #include <QIconEnginePlugin>
 #include <QSize>
+
+// ensure we don't miss the icon font when linking against qtforkawesome statically but don't build
+// a static plugin
+#ifndef QT_FORK_AWESOME_ICON_ENGINE_STATIC
+ENABLE_QT_RESOURCES_OF_STATIC_DEPENDENCIES
+#endif
 
 namespace QtForkAwesome {
 
