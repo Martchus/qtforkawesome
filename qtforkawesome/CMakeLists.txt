@@ -14,8 +14,13 @@ set(FORK_AWESOME_VERSION
     "1.2.0"
     CACHE STRING "specifies the version of ForkAwesome")
 set(FORK_AWESOME_REPO_URL "https://raw.githubusercontent.com/ForkAwesome/Fork-Awesome/${FORK_AWESOME_VERSION}")
+if (LINUX)
+    set(FORK_AWESOME_FONT_FORMAT "woff2")
+else ()
+    set(FORK_AWESOME_FONT_FORMAT "ttf")
+endif ()
 set(FORK_AWESOME_FONT_FILE
-    "${FORK_AWESOME_REPO_URL}/fonts/forkawesome-webfont.woff2"
+    "${FORK_AWESOME_REPO_URL}/fonts/forkawesome-webfont.${FORK_AWESOME_FONT_FORMAT}"
     CACHE STRING "specifies the location of ForkAwesome's font file")
 set(FORK_AWESOME_ICON_DEFINITIONS
     "${FORK_AWESOME_REPO_URL}/src/icons/icons.yml"
