@@ -9,8 +9,8 @@
 
 #include <QGuiApplication>
 #include <QPainter>
-#include <QString>
 #include <QPalette>
+#include <QString>
 #ifdef QT_FORK_AWESOME_ICON_ENGINE_ENABLE_STYLE_SUPPORT
 #include <QApplication>
 #include <QStyle>
@@ -57,8 +57,7 @@ QPixmap IconEngine::pixmap(const QSize &size, QIcon::Mode mode, QIcon::State sta
         case QIcon::Selected:
             role = QPalette::HighlightedText;
             break;
-        default:
-            ;
+        default:;
         }
 #endif
         color = QGuiApplication::palette().color(group, role);
