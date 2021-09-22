@@ -74,6 +74,13 @@ add_custom_command(
     DEPENDS "${FORK_AWESOME_ICON_DEFINITIONS}"
     COMMENT "Icon header")
 
+# exclude generated files from being processed by Qt's tools (see CMP0071)
+if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.8")
+    foreach (GENERATED_FILE ${ID_MAPPING_HEADER_FILE} ${ICONS_HEADER_FILE})
+        set_property(SOURCE "${GENERATED_FILE}" PROPERTY SKIP_AUTOGEN ON)
+    endforeach ()
+endif ()
+
 # use headers and CMake modules from c++utilities and qtutilities
 use_cpp_utilities(ONLY_HEADERS VISIBILITY PUBLIC)
 use_qt_utilities(ONLY_HEADERS VISIBILITY PRIVATE)
