@@ -14,7 +14,7 @@ use_cpp_utilities(ONLY_HEADERS VISIBILITY PUBLIC)
 use_qt_utilities(ONLY_HEADERS VISIBILITY PRIVATE)
 
 if (NAMESPACE)
-  set(NAMESPACE_PREFIX "${NAMESPACE}-")
+    set(NAMESPACE_PREFIX "${NAMESPACE}-")
 endif ()
 
 # use main qtforkawesome library
