@@ -95,7 +95,7 @@ void IconEngine::addFile(const QString &fileName, const QSize &, QIcon::Mode mod
         return;
     }
     m_char = static_cast<IconBaseType>(iconFromId(parts.at(0).toString()));
-    m_color = parts.size() > 1 ? QColor(parts.at(1)) : QColor();
+    m_color = parts.size() > 1 ? QColor(parts.at(1).toString()) : QColor();
 }
 
 QString IconEngine::key() const
