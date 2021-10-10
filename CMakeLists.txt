@@ -37,3 +37,8 @@ find_package(${PACKAGE_NAMESPACE_PREFIX}qtutilities${CONFIGURATION_PACKAGE_SUFFI
 add_subdirectory(${META_PROJECT_NAME})
 set(${PACKAGE_NAMESPACE_PREFIX}${META_PROJECT_NAME}${CONFIGURATION_PACKAGE_SUFFIX_QTFORKAWESOME}_DIR "${CMAKE_CURRENT_BINARY_DIR}/${META_PROJECT_NAME}")
 add_subdirectory(iconengineplugin)
+
+option(ENABLE_QT_QUICK_IMAGE_PROVIDER "enables building the QQuickImageProvider" OFF)
+if (ENABLE_QT_QUICK_IMAGE_PROVIDER)
+    add_subdirectory(${META_PROJECT_NAME}quickimageprovider)
+endif ()

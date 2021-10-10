@@ -77,6 +77,30 @@ To link against the plugin statically, find the CMake module
 `qtforkawesomeiconengine` and add `Q_IMPORT_PLUGIN(ForkAwesomeIconEnginePlugin)`
 to one of your source files.
 
+### QQuickImageProvider
+A `QQuickImageProvider` is provided as well in form of the additional library
+`qtforkawesomequickimageprovider` which can be enabled by adding
+`-DENABLE_QT_QUICK_IMAGE_PROVIDER:BOOL=ON` to the CMake arguments.
+
+Then just include the header:
+
+```
+#include <qtforkawesomequickimageprovider/provider.h>
+```
+
+Create an instance and add it to your `QQmlEngine`:
+
+```
+engine->addImageProvider(QStringLiteral("fa"), new QtForkAwesome::QuickImageProvider(renderer));
+```
+
+And use it like this:
+```
+Image {
+    source: "image://fa/syncthing"
+}
+```
+
 ### Bundling
 It is also possible to build the library as part of your project. Simply add
 it via `add_subdirectory`. Checkout the
