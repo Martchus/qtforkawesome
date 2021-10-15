@@ -27,11 +27,11 @@ public:
     ~Renderer();
 
     operator bool() const;
-    void render(QChar character, QPainter *painter, const QRect &rect, const QColor &color);
-    void render(Icon icon, QPainter *painter, const QRect &rect, const QColor &color);
+    void render(QChar character, QPainter *painter, const QRect &rect, const QColor &color) const;
+    void render(Icon icon, QPainter *painter, const QRect &rect, const QColor &color) const;
 
-    QPixmap pixmap(QChar icon, const QSize &size, const QColor &color);
-    QPixmap pixmap(Icon icon, const QSize &size, const QColor &color);
+    QPixmap pixmap(QChar icon, const QSize &size, const QColor &color) const;
+    QPixmap pixmap(Icon icon, const QSize &size, const QColor &color) const;
 
 private:
     std::unique_ptr<Renderer::InternalData> m_d;
@@ -40,7 +40,7 @@ private:
 /*!
  * \brief Renders the specified \a icon using the specified \a painter.
  */
-inline void Renderer::render(Icon icon, QPainter *painter, const QRect &rect, const QColor &color)
+inline void Renderer::render(Icon icon, QPainter *painter, const QRect &rect, const QColor &color) const
 {
     render(QChar(static_cast<IconBaseType>(icon)), painter, rect, color);
 }

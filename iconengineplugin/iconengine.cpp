@@ -19,7 +19,7 @@
 
 namespace QtForkAwesome {
 
-IconEngine::IconEngine(Renderer &renderer)
+IconEngine::IconEngine(const Renderer &renderer)
     : m_renderer(renderer)
     , m_char(0)
     , m_color()

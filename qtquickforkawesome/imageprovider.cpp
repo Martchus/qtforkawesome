@@ -11,7 +11,8 @@
 /// \brief Contains classes provided by the QtForkAwesome library.
 namespace QtForkAwesome {
 
-QuickImageProvider::QuickImageProvider(Renderer &renderer, const QColor &defaultColor, const QSize &defaultSize, QQuickImageProvider::ImageType type)
+QuickImageProvider::QuickImageProvider(
+    const Renderer &renderer, const QColor &defaultColor, const QSize &defaultSize, QQuickImageProvider::ImageType type)
     : QQuickImageProvider(type)
     , m_renderer(renderer)
     , m_defaultColor(defaultColor)

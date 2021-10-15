@@ -24,7 +24,7 @@ public:
     QIconEngine *create(const QString &filename = QString()) override;
 
 private:
-    Renderer m_renderer;
+    const Renderer m_renderer;
 };
 
 QIconEngine *ForkAwesomeIconEnginePlugin::create(const QString &file)

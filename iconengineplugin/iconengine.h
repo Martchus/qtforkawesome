@@ -13,7 +13,7 @@ class Renderer;
 
 class QT_FORK_AWESOME_ICON_ENGINE_EXPORT IconEngine : public QIconEngine {
 public:
-    IconEngine(Renderer &renderer);
+    IconEngine(const Renderer &renderer);
     IconEngine(const IconEngine &other);
     ~IconEngine() override;
 
@@ -24,7 +24,7 @@ public:
     QIconEngine *clone() const override;
 
 private:
-    Renderer &m_renderer;
+    const Renderer &m_renderer;
     IconBaseType m_char;
     QColor m_color;
 };

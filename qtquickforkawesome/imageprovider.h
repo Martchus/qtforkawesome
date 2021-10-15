@@ -16,7 +16,7 @@ class Renderer;
 
 class QT_QUICK_FORK_AWESOME_EXPORT QuickImageProvider : public QQuickImageProvider {
 public:
-    QuickImageProvider(Renderer &renderer, const QColor &defaultColor = QColor(), const QSize &defaultSize = QSize(64, 64),
+    QuickImageProvider(const Renderer &renderer, const QColor &defaultColor = QColor(), const QSize &defaultSize = QSize(64, 64),
         QQuickImageProvider::ImageType type = QQuickImageProvider::Pixmap);
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize, const QQuickImageProviderOptions &options);
@@ -27,7 +27,7 @@ public:
 #endif
 
 private:
-    Renderer &m_renderer;
+    const Renderer &m_renderer;
     QColor m_defaultColor;
     QSize m_defaultSize;
 };

@@ -72,7 +72,7 @@ Renderer::operator bool() const
 /*!
  * \brief Renders the specified \a icon using the specified \a painter.
  */
-void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const QRect &rect, const QColor &color)
+void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const QRect &rect, const QColor &color) const
 {
     if (!*this) {
         return;
@@ -89,7 +89,7 @@ void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const Q
 /*!
  * \brief Renders the specified \a character as pixmap of the specified \a size.
  */
-QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QColor &color)
+QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QColor &color) const
 {
     const auto scaleFactor =
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
@@ -108,7 +108,7 @@ QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QCo
 /*!
  * \brief Renders the specified \a icon as pixmap of the specified \a size.
  */
-QPixmap Renderer::pixmap(Icon icon, const QSize &size, const QColor &color)
+QPixmap Renderer::pixmap(Icon icon, const QSize &size, const QColor &color) const
 {
     return pixmap(QChar(static_cast<IconBaseType>(icon)), size, color);
 }
