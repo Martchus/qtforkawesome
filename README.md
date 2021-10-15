@@ -79,13 +79,13 @@ to one of your source files.
 
 ### QQuickImageProvider
 A `QQuickImageProvider` is provided as well in form of the additional library
-`qtforkawesomequickimageprovider` which can be enabled by adding
-`-DENABLE_QT_QUICK_IMAGE_PROVIDER:BOOL=ON` to the CMake arguments.
+`qtquickforkawesome` which can be enabled by adding
+`-DENABLE_QT_QUICK_LIBRARY:BOOL=ON` to the CMake arguments.
 
 Then just include the header:
 
 ```
-#include <qtforkawesomequickimageprovider/provider.h>
+#include <qtquickforkawesome/imageprovider.h>
 ```
 
 Create an instance and add it to your `QQmlEngine`:

@@ -1,12 +1,12 @@
 # additional meta data
-set(META_PROJECT_NAME qtforkawesomequickimageprovider)
-set(META_PROJECT_VARNAME QT_FORK_AWESOME_QUICK_IMAGE_PROVIDER)
+set(META_PROJECT_NAME qtquickforkawesome)
+set(META_PROJECT_VARNAME QT_QUICK_FORK_AWESOME)
 set(META_APP_NAME "QQuickImageProvider for ForkAwesome")
 set(META_APP_DESCRIPTION "QQuickImageProvider for ForkAwesome")
 
 # add project files
-set(HEADER_FILES provider.h)
-set(SRC_FILES provider.cpp)
+set(HEADER_FILES imageprovider.h)
+set(SRC_FILES imageprovider.cpp)
 set(DOC_FILES ../README.md)
 
 # use headers and CMake modules from c++utilities and qtutilities

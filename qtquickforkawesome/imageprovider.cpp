@@ -1,4 +1,4 @@
-#include "./provider.h"
+#include "./imageprovider.h"
 
 #include <qtforkawesome/renderer.h>
 #include <qtforkawesome/utils.h>
@@ -28,7 +28,7 @@ QPixmap QuickImageProvider::requestPixmap(const QString &id, QSize *size, const 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     Q_UNUSED(options)
 #endif
-    const auto parts = id.splitRef(QChar(':'));
+    const auto parts = QtUtilities::splitRef(id, QChar(':'));
     if (parts.empty()) {
         return QPixmap();
     }

@@ -14,7 +14,7 @@ namespace QtForkAwesome {
 
 class Renderer;
 
-class QT_FORK_AWESOME_QUICK_IMAGE_PROVIDER_EXPORT QuickImageProvider : public QQuickImageProvider {
+class QT_QUICK_FORK_AWESOME_EXPORT QuickImageProvider : public QQuickImageProvider {
 public:
     QuickImageProvider(Renderer &renderer, const QColor &defaultColor = QColor(), const QSize &defaultSize = QSize(64, 64),
         QQuickImageProvider::ImageType type = QQuickImageProvider::Pixmap);
