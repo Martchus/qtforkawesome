@@ -79,8 +79,7 @@ to one of your source files.
 
 ### QQuickImageProvider
 A `QQuickImageProvider` is provided as well in form of the additional library
-`qtquickforkawesome` which can be enabled by adding
-`-DENABLE_QT_QUICK_LIBRARY:BOOL=ON` to the CMake arguments.
+`qtquickforkawesome`.
 
 Then just include the header:
 
