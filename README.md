@@ -7,6 +7,9 @@ Library that bundles ForkAwesome for use within Qt applications
 The library depends on the following Qt modules (version 5.6 or higher):
 `core`, `gui`
 
+The additional library for Qt Quick integration (currently only providing a
+`QQuickImageProvider`) depends on the following further Qt modules: `quick`
+
 At build time `qtutilities` and `c++utilities` are required. This library is
 built in the same way as these libraries so checkout the `c++utilities`
 repository for detailed instructions.
