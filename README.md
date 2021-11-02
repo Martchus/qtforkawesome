@@ -1,5 +1,6 @@
 # Qt ForkAwesome
-Library that bundles ForkAwesome for use within Qt applications
+Library that bundles [ForkAwesome](https://forkaweso.me) for use within Qt
+applications
 
 ## Build instructions
 
