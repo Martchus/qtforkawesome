@@ -110,5 +110,7 @@ it via `add_subdirectory`. Checkout the
 [Syncthing Tray's project file](https://github.com/Martchus/syncthingtray/blob/master/CMakeLists.txt)
 for an example.
 
-## License
+## Copyright notice and license
+Copyright © 2021-2022 Marius Kittler
+
 All code is licensed under [GPL-2-or-later](LICENSE).
