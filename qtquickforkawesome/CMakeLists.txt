@@ -21,8 +21,9 @@ endif ()
 find_package(${NAMESPACE_PREFIX}qtforkawesome${CONFIGURATION_PACKAGE_SUFFIX_QTFORKAWESOME} ${META_APP_VERSION} REQUIRED)
 use_qt_fork_awesome()
 
-# use Qt Gui module
+# set required Qt modules and declare their use as public
 list(APPEND ADDITIONAL_QT_MODULES Gui Quick)
+set(META_PUBLIC_QT_MODULES Core ${ADDITIONAL_QT_MODULES})
 
 # include modules to apply configuration
 include(BasicConfig)

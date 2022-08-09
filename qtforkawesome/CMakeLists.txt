@@ -85,8 +85,9 @@ endif ()
 use_cpp_utilities(ONLY_HEADERS VISIBILITY PUBLIC)
 use_qt_utilities(ONLY_HEADERS VISIBILITY PRIVATE)
 
-# use Qt Gui module
+# set required Qt modules and declare their use as public
 list(APPEND ADDITIONAL_QT_MODULES Gui)
+set(META_PUBLIC_QT_MODULES Core ${ADDITIONAL_QT_MODULES})
 
 # include modules to apply configuration
 include(BasicConfig)
