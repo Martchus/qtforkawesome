@@ -21,13 +21,8 @@ class QT_QUICK_FORK_AWESOME_EXPORT QuickImageProvider : public QQuickImageProvid
 public:
     QuickImageProvider(const Renderer &renderer, const QColor &defaultColor = QColor(), const QSize &defaultSize = QSize(64, 64),
         QQuickImageProvider::ImageType type = QQuickImageProvider::Pixmap);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize, const QQuickImageProviderOptions &options);
-    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize, const QQuickImageProviderOptions &options);
-#else
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize) override;
-#endif
 
     QColor defaultColor() const;
     QSize defaultSize() const;

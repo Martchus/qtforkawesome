@@ -20,15 +20,8 @@ QuickImageProvider::QuickImageProvider(
 {
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-QPixmap QuickImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize, const QQuickImageProviderOptions &options)
-#else
 QPixmap QuickImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
-#endif
 {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    Q_UNUSED(options)
-#endif
     const auto parts = QtUtilities::splitRef(id, QChar(':'));
     if (parts.empty()) {
         return QPixmap();
@@ -48,16 +41,9 @@ QPixmap QuickImageProvider::requestPixmap(const QString &id, QSize *size, const 
     return m_renderer.pixmap(icon, renderSize, color);
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-QImage QuickImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize, const QQuickImageProviderOptions &options)
-{
-    return requestPixmap(id, size, requestedSize, options).toImage();
-}
-#else
 QImage QuickImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     return requestPixmap(id, size, requestedSize).toImage();
 }
-#endif
 
 } // namespace QtForkAwesome
