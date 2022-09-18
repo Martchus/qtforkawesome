@@ -22,14 +22,11 @@ class QT_FORK_AWESOME_ICON_ENGINE_EXPORT ForkAwesomeIconEnginePlugin : public QI
 
 public:
     QIconEngine *create(const QString &filename = QString()) override;
-
-private:
-    const Renderer m_renderer;
 };
 
 QIconEngine *ForkAwesomeIconEnginePlugin::create(const QString &file)
 {
-    auto *const engine = new IconEngine(m_renderer);
+    auto *const engine = new IconEngine(Renderer::global());
     if (!file.isNull()) {
         engine->addFile(file, QSize(), QIcon::Normal, QIcon::Off);
     }

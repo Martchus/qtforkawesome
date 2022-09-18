@@ -113,4 +113,13 @@ QPixmap Renderer::pixmap(Icon icon, const QSize &size, const QColor &color) cons
     return pixmap(QChar(static_cast<IconBaseType>(icon)), size, color);
 }
 
+/*!
+ * \brief Returns the global instance (which is so far only used by the icon engine plugin).
+ */
+Renderer &Renderer::global()
+{
+    static auto globalRenderer = Renderer();
+    return globalRenderer;
+}
+
 } // namespace QtForkAwesome

@@ -33,6 +33,8 @@ public:
     QPixmap pixmap(QChar icon, const QSize &size, const QColor &color) const;
     QPixmap pixmap(Icon icon, const QSize &size, const QColor &color) const;
 
+    static Renderer &global();
+
 private:
     std::unique_ptr<Renderer::InternalData> m_d;
 };
