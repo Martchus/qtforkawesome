@@ -33,6 +33,9 @@ public:
     QPixmap pixmap(QChar icon, const QSize &size, const QColor &color) const;
     QPixmap pixmap(Icon icon, const QSize &size, const QColor &color) const;
 
+    void addThemeOverride(QChar character, const QString &iconNameInTheme);
+    void addThemeOverride(Icon icon, const QString &iconNameInTheme);
+
     static Renderer &global();
 
 private:
@@ -45,6 +48,14 @@ private:
 inline void Renderer::render(Icon icon, QPainter *painter, const QRect &rect, const QColor &color) const
 {
     render(QChar(static_cast<IconBaseType>(icon)), painter, rect, color);
+}
+
+/*!
+ * \brief Uses the icon from the current icon theme obtained via QIcon::fromTheme() for \a icon if it exists.
+ */
+inline void Renderer::addThemeOverride(Icon icon, const QString &iconNameInTheme)
+{
+    addThemeOverride(QChar(static_cast<IconBaseType>(icon)), iconNameInTheme);
 }
 
 } // namespace QtForkAwesome

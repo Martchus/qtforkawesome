@@ -4,6 +4,8 @@
 
 #include <QFontDatabase>
 #include <QGuiApplication>
+#include <QHash>
+#include <QIcon>
 #include <QPainter>
 
 /// \brief Contains classes provided by the QtForkAwesome library.
@@ -17,6 +19,7 @@ struct Renderer::InternalData {
 
     int id;
     QStringList fontFamilies;
+    QHash<QChar, QString> themeOverrides;
 };
 
 Renderer::InternalData::InternalData(int id)
@@ -69,15 +72,9 @@ Renderer::operator bool() const
     return !m_d->fontFamilies.empty();
 }
 
-/*!
- * \brief Renders the specified \a icon using the specified \a painter.
- */
-void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const QRect &rect, const QColor &color) const
+/// \cond
+static void renderInternally(QChar character, QPainter *painter, QFont &&font, const QRect &rect, const QColor &color)
 {
-    if (!*this) {
-        return;
-    }
-    auto font = QFont(m_d->fontFamilies.front());
     font.setPixelSize(rect.height());
     painter->save();
     painter->setFont(font);
@@ -85,12 +82,39 @@ void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const Q
     painter->drawText(rect, QString(character), QTextOption(Qt::AlignCenter));
     painter->restore();
 }
+/// \endcond
+
+/*!
+ * \brief Renders the specified \a icon using the specified \a painter.
+ */
+void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const QRect &rect, const QColor &color) const
+{
+    auto themeOverride = m_d->themeOverrides.find(character);
+    if (themeOverride != m_d->themeOverrides.end()) {
+        const auto icon = QIcon::fromTheme(*themeOverride);
+        if (!icon.isNull()) {
+            painter->drawPixmap(rect, icon.pixmap(rect.size(), QIcon::Normal, QIcon::On));
+            return;
+        }
+    }
+    if (*this) {
+        renderInternally(character, painter, QFont(m_d->fontFamilies.front()), rect, color);
+    }
+}
 
 /*!
  * \brief Renders the specified \a character as pixmap of the specified \a size.
  */
 QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QColor &color) const
 {
+    auto themeOverride = m_d->themeOverrides.find(icon);
+    if (themeOverride != m_d->themeOverrides.end()) {
+        const auto icon = QIcon::fromTheme(*themeOverride);
+        if (!icon.isNull()) {
+            return icon.pixmap(size, QIcon::Normal, QIcon::On);
+        }
+    }
+
     const auto scaleFactor =
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
         !QCoreApplication::testAttribute(Qt::AA_UseHighDpiPixmaps) ? 1.0 :
@@ -99,8 +123,10 @@ QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QCo
     const auto scaledSize = QSize(size * scaleFactor);
     auto pm = QPixmap(scaledSize);
     pm.fill(QColor(Qt::transparent));
-    auto painter = QPainter(&pm);
-    render(icon, &painter, QRect(QPoint(), scaledSize), color);
+    if (*this) {
+        auto painter = QPainter(&pm);
+        renderInternally(icon, &painter, QFont(m_d->fontFamilies.front()), QRect(QPoint(), scaledSize), color);
+    }
     pm.setDevicePixelRatio(scaleFactor);
     return pm;
 }
@@ -111,6 +137,14 @@ QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QCo
 QPixmap Renderer::pixmap(Icon icon, const QSize &size, const QColor &color) const
 {
     return pixmap(QChar(static_cast<IconBaseType>(icon)), size, color);
+}
+
+/*!
+ * \brief Uses the icon from the current icon theme obtained via QIcon::fromTheme() for \a character if it exists.
+ */
+void Renderer::addThemeOverride(QChar character, const QString &iconNameInTheme)
+{
+    m_d->themeOverrides.insert(character, iconNameInTheme);
 }
 
 /*!
