@@ -13,13 +13,44 @@ namespace QtForkAwesome {
 
 /// \cond
 
+struct ThemeOverride {
+    void addIconName(const QString &iconName);
+    const QIcon &locateIcon();
+
+private:
+    QStringList iconNames;
+    QIcon cachedIcon;
+};
+
+void ThemeOverride::addIconName(const QString &iconName)
+{
+    iconNames.append(iconName);
+    if (!cachedIcon.isNull()) {
+        cachedIcon = QIcon();
+    }
+}
+
+const QIcon &ThemeOverride::locateIcon()
+{
+    if (!cachedIcon.isNull()) {
+        return cachedIcon;
+    }
+    for (const auto &iconName : iconNames) {
+        cachedIcon = QIcon::fromTheme(iconName);
+        if (!cachedIcon.isNull()) {
+            return cachedIcon;
+        }
+    }
+    return cachedIcon;
+}
+
 struct Renderer::InternalData {
     explicit InternalData(int id);
     static constexpr int invalidId = -1;
 
     int id;
     QStringList fontFamilies;
-    QHash<QChar, QString> themeOverrides;
+    QHash<QChar, ThemeOverride> themeOverrides;
 };
 
 Renderer::InternalData::InternalData(int id)
@@ -89,10 +120,8 @@ static void renderInternally(QChar character, QPainter *painter, QFont &&font, c
  */
 void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const QRect &rect, const QColor &color) const
 {
-    auto themeOverride = m_d->themeOverrides.find(character);
-    if (themeOverride != m_d->themeOverrides.end()) {
-        const auto icon = QIcon::fromTheme(*themeOverride);
-        if (!icon.isNull()) {
+    if (auto themeOverride = m_d->themeOverrides.find(character); themeOverride != m_d->themeOverrides.end()) {
+        if (const auto &icon = themeOverride->locateIcon(); !icon.isNull()) {
             painter->drawPixmap(rect, icon.pixmap(rect.size(), QIcon::Normal, QIcon::On));
             return;
         }
@@ -107,10 +136,8 @@ void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const Q
  */
 QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QColor &color) const
 {
-    auto themeOverride = m_d->themeOverrides.find(icon);
-    if (themeOverride != m_d->themeOverrides.end()) {
-        const auto icon = QIcon::fromTheme(*themeOverride);
-        if (!icon.isNull()) {
+    if (auto themeOverride = m_d->themeOverrides.find(icon); themeOverride != m_d->themeOverrides.end()) {
+        if (const auto &icon = themeOverride->locateIcon(); !icon.isNull()) {
             return icon.pixmap(size, QIcon::Normal, QIcon::On);
         }
     }
@@ -144,7 +171,7 @@ QPixmap Renderer::pixmap(Icon icon, const QSize &size, const QColor &color) cons
  */
 void Renderer::addThemeOverride(QChar character, const QString &iconNameInTheme)
 {
-    m_d->themeOverrides.insert(character, iconNameInTheme);
+    m_d->themeOverrides[character].addIconName(iconNameInTheme);
 }
 
 /*!
