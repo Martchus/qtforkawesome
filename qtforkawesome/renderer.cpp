@@ -13,7 +13,8 @@ namespace QtForkAwesome {
 
 /// \cond
 
-struct ThemeOverride {
+struct IconOverride {
+    void setIcon(const QIcon &icon);
     void addIconName(const QString &iconName);
     const QIcon &locateIcon();
 
@@ -22,7 +23,13 @@ private:
     QIcon cachedIcon;
 };
 
-void ThemeOverride::addIconName(const QString &iconName)
+void IconOverride::setIcon(const QIcon &icon)
+{
+    iconNames.clear();
+    cachedIcon = icon;
+}
+
+void IconOverride::addIconName(const QString &iconName)
 {
     iconNames.append(iconName);
     if (!cachedIcon.isNull()) {
@@ -30,7 +37,7 @@ void ThemeOverride::addIconName(const QString &iconName)
     }
 }
 
-const QIcon &ThemeOverride::locateIcon()
+const QIcon &IconOverride::locateIcon()
 {
     if (!cachedIcon.isNull()) {
         return cachedIcon;
@@ -50,7 +57,7 @@ struct Renderer::InternalData {
 
     int id;
     QStringList fontFamilies;
-    QHash<QChar, ThemeOverride> themeOverrides;
+    QHash<QChar, IconOverride> overrides;
 };
 
 Renderer::InternalData::InternalData(int id)
@@ -120,8 +127,8 @@ static void renderInternally(QChar character, QPainter *painter, QFont &&font, c
  */
 void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const QRect &rect, const QColor &color) const
 {
-    if (auto themeOverride = m_d->themeOverrides.find(character); themeOverride != m_d->themeOverrides.end()) {
-        if (const auto &icon = themeOverride->locateIcon(); !icon.isNull()) {
+    if (auto override = m_d->overrides.find(character); override != m_d->overrides.end()) {
+        if (const auto &icon = override->locateIcon(); !icon.isNull()) {
             painter->drawPixmap(rect, icon.pixmap(rect.size(), QIcon::Normal, QIcon::On));
             return;
         }
@@ -136,8 +143,8 @@ void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const Q
  */
 QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QColor &color) const
 {
-    if (auto themeOverride = m_d->themeOverrides.find(icon); themeOverride != m_d->themeOverrides.end()) {
-        if (const auto &icon = themeOverride->locateIcon(); !icon.isNull()) {
+    if (auto override = m_d->overrides.find(icon); override != m_d->overrides.end()) {
+        if (const auto &icon = override->locateIcon(); !icon.isNull()) {
             return icon.pixmap(size, QIcon::Normal, QIcon::On);
         }
     }
@@ -171,7 +178,15 @@ QPixmap Renderer::pixmap(Icon icon, const QSize &size, const QColor &color) cons
  */
 void Renderer::addThemeOverride(QChar character, const QString &iconNameInTheme)
 {
-    m_d->themeOverrides[character].addIconName(iconNameInTheme);
+    m_d->overrides[character].addIconName(iconNameInTheme);
+}
+
+/*!
+ * \brief Uses the specified \a override icon for \a character if it is not null.
+ */
+void Renderer::addOverride(QChar character, const QIcon &override)
+{
+    m_d->overrides[character].setIcon(override);
 }
 
 /*!

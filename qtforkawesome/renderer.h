@@ -35,6 +35,8 @@ public:
 
     void addThemeOverride(QChar character, const QString &iconNameInTheme);
     void addThemeOverride(Icon icon, const QString &iconNameInTheme);
+    void addOverride(QChar character, const QIcon &override);
+    void addOverride(Icon icon, const QIcon &override);
 
     static Renderer &global();
 
@@ -56,6 +58,14 @@ inline void Renderer::render(Icon icon, QPainter *painter, const QRect &rect, co
 inline void Renderer::addThemeOverride(Icon icon, const QString &iconNameInTheme)
 {
     addThemeOverride(QChar(static_cast<IconBaseType>(icon)), iconNameInTheme);
+}
+
+/*!
+ * \brief Uses the specified \a override icon for \a icon if it is not null.
+ */
+inline void Renderer::addOverride(Icon icon, const QIcon &override)
+{
+    addOverride(QChar(static_cast<IconBaseType>(icon)), override);
 }
 
 } // namespace QtForkAwesome
