@@ -37,6 +37,7 @@ public:
     void addThemeOverride(Icon icon, const QString &iconNameInTheme);
     void addOverride(QChar character, const QIcon &override);
     void addOverride(Icon icon, const QIcon &override);
+    void clearOverrides();
 
     static Renderer &global();
 

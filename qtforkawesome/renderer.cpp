@@ -190,6 +190,14 @@ void Renderer::addOverride(QChar character, const QIcon &override)
 }
 
 /*!
+ * \brief Clears all overrides added via addThemeOverride() or addOverride().
+ */
+void Renderer::clearOverrides()
+{
+    m_d->overrides.clear();
+}
+
+/*!
  * \brief Returns the global instance (which is so far only used by the icon engine plugin).
  */
 Renderer &Renderer::global()
