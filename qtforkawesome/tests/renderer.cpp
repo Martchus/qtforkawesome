@@ -1,5 +1,5 @@
-#include "../icon.h"
 #include "../renderer.h"
+#include "../icon.h"
 
 #include <c++utilities/tests/testutils.h>
 
