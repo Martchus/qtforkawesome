@@ -128,8 +128,8 @@ static void renderInternally(QChar character, QPainter *painter, QFont &&font, c
 void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const QRect &rect, const QColor &color) const
 {
     if (auto override = m_d->overrides.find(character); override != m_d->overrides.end()) {
-        if (const auto &icon = override->locateIcon(); !icon.isNull()) {
-            painter->drawPixmap(rect, icon.pixmap(rect.size(), QIcon::Normal, QIcon::On));
+        if (const auto &overrideIcon = override->locateIcon(); !overrideIcon.isNull()) {
+            painter->drawPixmap(rect, overrideIcon.pixmap(rect.size(), QIcon::Normal, QIcon::On));
             return;
         }
     }
@@ -144,8 +144,8 @@ void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const Q
 QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QColor &color) const
 {
     if (auto override = m_d->overrides.find(icon); override != m_d->overrides.end()) {
-        if (const auto &icon = override->locateIcon(); !icon.isNull()) {
-            return icon.pixmap(size, QIcon::Normal, QIcon::On);
+        if (const auto &overrideIcon = override->locateIcon(); !overrideIcon.isNull()) {
+            return overrideIcon.pixmap(size, QIcon::Normal, QIcon::On);
         }
     }
 
