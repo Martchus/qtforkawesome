@@ -17,7 +17,8 @@ repository for detailed instructions.
 
 To generate the header with icon definitions, Perl and the module `YAML::XS` (or
 `YAML`) are required. To use a specific Perl binary, one can set the CMake
-variable `PERL_BIN`.
+variable `PERL_BIN`. Under Windows, one can simply install `perl-YAML` via MSYS2
+and set `PERL_BIN` to the path of `perl.exe` from the MSYS2 installation.
 
 ### Providing the font file
 Of course the font file and icon definitions for ForkAwesome need to be
