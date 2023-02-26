@@ -60,7 +60,10 @@ file(WRITE "${RES_FILE_PATH}" "${RES_FILE_DATA}")
 list(APPEND RES_FILES "${RES_FILE_PATH}")
 
 # create rule for generating header file
-find_program(PERL perl)
+find_program(PERL_BIN perl)
+if (NOT PERL_BIN)
+    message(FATAL_ERROR "Unable to find Perl, set PERL_BIN to the path of Perl's executable.")
+endif ()
 set(GENERATED_HEADERS_PATH "${CMAKE_CURRENT_BINARY_DIR}/headers")
 set(ICONS_HEADER_FILE "${GENERATED_HEADERS_PATH}/private/icons.h")
 set(ID_MAPPING_HEADER_FILE "${GENERATED_HEADERS_PATH}/private/idmapping.h")
@@ -69,7 +72,7 @@ list(APPEND SRC_FILES "${ICONS_HEADER_FILE}" "${ID_MAPPING_HEADER_FILE}")
 set(META_TIDY_EXCLUDE_REGEX ".*/headers/private.*")
 add_custom_command(
     OUTPUT "${ICONS_HEADER_FILE}" "${ID_MAPPING_HEADER_FILE}"
-    COMMAND "${PERL}" "${CMAKE_CURRENT_SOURCE_DIR}/scripts/yaml2enum.pl" "${FORK_AWESOME_ICON_DEFINITIONS}"
+    COMMAND "${PERL_BIN}" "${CMAKE_CURRENT_SOURCE_DIR}/scripts/yaml2enum.pl" "${FORK_AWESOME_ICON_DEFINITIONS}"
             "${ICONS_HEADER_FILE}" "${ID_MAPPING_HEADER_FILE}"
     DEPENDS "${FORK_AWESOME_ICON_DEFINITIONS}"
     COMMENT "Icon header")
