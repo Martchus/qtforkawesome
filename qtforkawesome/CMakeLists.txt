@@ -32,7 +32,7 @@ function (checkout_file VARIABLE)
         get_filename_component(FILE_NAME "${${VARIABLE}}" NAME)
         if (NOT EXISTS "${DOWNLOAD_DIR}/${FILE_NAME}")
             message(STATUS "Downloading ${${VARIABLE}}")
-            file(DOWNLOAD "${${VARIABLE}}" "${DOWNLOAD_DIR}/${FILE_NAME}" SHOW_PROGRESS)
+            file(DOWNLOAD "${${VARIABLE}}" "${DOWNLOAD_DIR}/${FILE_NAME}" SHOW_PROGRESS TLS_VERIFY ON)
         endif ()
         set("${VARIABLE}"
             "${DOWNLOAD_DIR}/${FILE_NAME}"
