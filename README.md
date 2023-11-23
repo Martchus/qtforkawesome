@@ -22,16 +22,22 @@ and set `PERL_BIN` to the path of `perl.exe` from the MSYS2 installation.
 
 ### Providing the font file
 Of course the font file and icon definitions for ForkAwesome need to be
-supplied as well.
-Just download an archive from https://github.com/ForkAwesome/Fork-Awesome/releases
-and specify its path via the CMake variables `FORK_AWESOME_FONT_FILE`
-and `FORK_AWESOME_ICON_DEFINITIONS`, e.g. add
-`-DFORK_AWESOME_FONT_FILE=/path/to/Fork-Awesome-1.2.0/fonts/forkawesome-webfont.woff2`
+supplied as well. If none of the variables mentioned in the next paragraph are
+specified, the build system will attempt to download the files from GitHub
+automatically.
+
+To supply the files manually, just download the `ttf`, `woff` or `woff2`
+file from
+[ForkAwesome's fonts directory](https://github.com/ForkAwesome/Fork-Awesome/tree/master/fonts)
+and the
+[icon definitions file](https://github.com/ForkAwesome/Fork-Awesome/blob/master/src/icons/icons.yml).
+Then specify the path of the downloaded files via the CMake variables
+`FORK_AWESOME_FONT_FILE` and `FORK_AWESOME_ICON_DEFINITIONS`, e.g. add
+`-DFORK_AWESOME_FONT_FILE=/path/to/Fork-Awesome/fonts/forkawesome-webfont.woff2`
 and
-`-DFORK_AWESOME_ICON_DEFINITIONS=/path/to/Fork-Awesome-1.2.0/src/icons/icons.yml`
+`-DFORK_AWESOME_ICON_DEFINITIONS=/path/to/Fork-Awesome/src/icons/icons.yml`
 to the CMake invocation. The font file will be built into the library and
-is hence only required at build time. If none of the variables are specified,
-the build system will attempt to download the files from GitHub.
+is hence only required at build time.
 
 The Web Open Font Format (the `.woff`/`.woff2` file) might not be supported by
 the font renderer. Notably, Window's native font rendering which Qt uses by
