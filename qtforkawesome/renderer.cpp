@@ -144,7 +144,7 @@ void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const Q
 /*!
  * \brief Renders the specified \a character as pixmap of the specified \a size.
  */
-QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QColor &color) const
+QPixmap Renderer::pixmap(QChar icon, const QSize &size, const QColor &color, qreal scaleFactor) const
 {
     if (auto override = m_d->overrides.find(icon); override != m_d->overrides.end()) {
         if (const auto &overrideIcon = override->locateIcon(); !overrideIcon.isNull()) {
@@ -152,11 +152,14 @@ QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QCo
         }
     }
 
-    const auto scaleFactor =
+    if (!scaleFactor) {
+        scaleFactor =
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-        !QCoreApplication::testAttribute(Qt::AA_UseHighDpiPixmaps) ? 1.0 :
+            !QCoreApplication::testAttribute(Qt::AA_UseHighDpiPixmaps) ? 1.0 :
 #endif
-                                                                   qGuiApp->devicePixelRatio();
+            (m_d->paintDevice ? m_d->paintDevice->devicePixelRatioF() : qGuiApp->devicePixelRatio());
+    }
+
     const auto scaledSize = QSize(size * scaleFactor);
     auto pm = QPixmap(scaledSize);
     pm.fill(QColor(Qt::transparent));
@@ -171,9 +174,35 @@ QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QCo
 /*!
  * \brief Renders the specified \a icon as pixmap of the specified \a size.
  */
+QPixmap Renderer::pixmap(Icon icon, const QSize &size, const QColor &color, qreal scaleFactor) const
+{
+    return pixmap(QChar(static_cast<IconBaseType>(icon)), size, color, scaleFactor);
+}
+
+/*!
+ * \brief Renders the specified \a character as pixmap of the specified \a size.
+ * \remarks
+ * - The pixmap will be scaled for the associated paint device or use the global device-dixel-ratio if not paint
+ *   device has been associated.
+ * - When rendering a QPixmap for a QIcon, better the other overloads with the actual size (and a scale factor of
+ *   one).
+ */
+QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QColor &color) const
+{
+    return pixmap(icon, size, color, 0.0);
+}
+
+/*!
+ * \brief Renders the specified \a icon as pixmap of the specified \a size.
+ * \remarks
+ * - The pixmap will be scaled for the associated paint device or use the global device-dixel-ratio if not paint
+ *   device has been associated.
+ * - When rendering a QPixmap for a QIcon, better the other overloads with the actual size (and a scale factor of
+ *   one).
+ */
 QPixmap Renderer::pixmap(Icon icon, const QSize &size, const QColor &color) const
 {
-    return pixmap(QChar(static_cast<IconBaseType>(icon)), size, color);
+    return pixmap(QChar(static_cast<IconBaseType>(icon)), size, color, 0.0);
 }
 
 /*!
@@ -202,7 +231,9 @@ void Renderer::clearOverrides()
 
 /*!
  * \brief Sets the associated \a paintDevice.
- * \remarks The device-pixel-ratio of the specified device will be used when rendering pixmaps.
+ * \remarks
+ * The device-pixel-ratio of the specified device will be used when rendering pixmaps using the overloads that
+ * do *not* take a scale factor.
  */
 void Renderer::setAssociatedPaintDevice(QPaintDevice *paintDevice)
 {

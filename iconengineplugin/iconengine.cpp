@@ -63,7 +63,7 @@ QPixmap IconEngine::pixmap(const QSize &size, QIcon::Mode mode, QIcon::State sta
         color = QGuiApplication::palette().color(group, role);
     }
 
-    auto pixmap = m_renderer.pixmap(QChar(m_char), size, color);
+    auto pixmap = m_renderer.pixmap(QChar(m_char), size, color, 1.0);
 #ifdef QT_FORK_AWESOME_ICON_ENGINE_ENABLE_STYLE_SUPPORT
     auto *const app = qobject_cast<QApplication *>(QApplication::instance());
     if (auto *const style = app ? app->style() : nullptr) {
