@@ -7,6 +7,7 @@
 #include <QHash>
 #include <QIcon>
 #include <QPainter>
+#include <QPaintDevice>
 
 /// \brief Contains classes provided by the QtForkAwesome library.
 namespace QtForkAwesome {
@@ -58,11 +59,13 @@ struct Renderer::InternalData {
     int id;
     QStringList fontFamilies;
     QHash<QChar, IconOverride> overrides;
+    QPaintDevice *paintDevice;
 };
 
 Renderer::InternalData::InternalData(int id)
     : id(id)
     , fontFamilies(id != invalidId ? QFontDatabase::applicationFontFamilies(id) : QStringList())
+    , paintDevice(nullptr)
 {
 }
 
@@ -195,6 +198,15 @@ void Renderer::addOverride(QChar character, const QIcon &override)
 void Renderer::clearOverrides()
 {
     m_d->overrides.clear();
+}
+
+/*!
+ * \brief Sets the associated \a paintDevice.
+ * \remarks The device-pixel-ratio of the specified device will be used when rendering pixmaps.
+ */
+void Renderer::setAssociatedPaintDevice(QPaintDevice *paintDevice)
+{
+    m_d->paintDevice = paintDevice;
 }
 
 /*!

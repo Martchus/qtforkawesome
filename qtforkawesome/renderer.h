@@ -13,6 +13,7 @@ QT_FORWARD_DECLARE_CLASS(QColor)
 QT_FORWARD_DECLARE_CLASS(QPainter)
 QT_FORWARD_DECLARE_CLASS(QRect)
 QT_FORWARD_DECLARE_CLASS(QSize)
+QT_FORWARD_DECLARE_CLASS(QPaintDevice)
 QT_FORWARD_DECLARE_CLASS(QPixmap)
 QT_FORWARD_DECLARE_CLASS(QIcon)
 
@@ -37,6 +38,7 @@ public:
     void addThemeOverride(Icon icon, const QString &iconNameInTheme);
     void addOverride(QChar character, const QIcon &override);
     void addOverride(Icon icon, const QIcon &override);
+    void setAssociatedPaintDevice(QPaintDevice *paintDevice);
     void clearOverrides();
 
     static Renderer &global();
