@@ -4,6 +4,7 @@
 #ifndef QT_FORK_AWESOME_ICON_ENGINE_GLOBAL
 #define QT_FORK_AWESOME_ICON_ENGINE_GLOBAL
 
+#include "qtforkawesomeiconengine-definitions.h"
 #include <c++utilities/application/global.h>
 
 #ifdef QT_FORK_AWESOME_ICON_ENGINE_STATIC

@@ -4,6 +4,7 @@
 #ifndef QT_FORK_AWESOME_GLOBAL
 #define QT_FORK_AWESOME_GLOBAL
 
+#include "qtforkawesome-definitions.h"
 #include <c++utilities/application/global.h>
 
 #ifdef QT_FORK_AWESOME_STATIC
