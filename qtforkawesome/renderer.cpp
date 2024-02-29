@@ -6,8 +6,8 @@
 #include <QGuiApplication>
 #include <QHash>
 #include <QIcon>
-#include <QPainter>
 #include <QPaintDevice>
+#include <QPainter>
 
 /// \brief Contains classes provided by the QtForkAwesome library.
 namespace QtForkAwesome {
@@ -155,7 +155,9 @@ QPixmap Renderer::pixmap(QChar icon, const QSize &size, const QColor &color, qre
     if (!scaleFactor) {
         scaleFactor =
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-            !QCoreApplication::testAttribute(Qt::AA_UseHighDpiPixmaps) ? 1.0 :
+            !QCoreApplication::testAttribute(Qt::AA_UseHighDpiPixmaps)
+            ? 1.0
+            :
 #endif
             (m_d->paintDevice ? m_d->paintDevice->devicePixelRatioF() : qGuiApp->devicePixelRatio());
     }
