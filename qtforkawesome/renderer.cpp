@@ -152,7 +152,7 @@ QPixmap Renderer::pixmap(QChar icon, const QSize &size, const QColor &color, qre
         }
     }
 
-    if (!scaleFactor) {
+    if (!static_cast<bool>(scaleFactor)) {
         scaleFactor =
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
             !QCoreApplication::testAttribute(Qt::AA_UseHighDpiPixmaps)
