@@ -134,7 +134,7 @@ void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const Q
 {
     if (auto override = m_d->overrides.find(character); override != m_d->overrides.end()) {
         if (const auto &overrideIcon = override->locateIcon(); !overrideIcon.isNull()) {
-            painter->drawPixmap(rect, overrideIcon.pixmap(rect.size(), QIcon::Normal, QIcon::On));
+            overrideIcon.paint(painter, rect, Qt::AlignCenter, QIcon::Normal, QIcon::On);
             return;
         }
     }
