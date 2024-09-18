@@ -148,11 +148,7 @@ void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const Q
  */
 QPixmap Renderer::pixmap(QChar icon, const QSize &size, const QColor &color, qreal scaleFactor) const
 {
-    if (auto override = m_d->overrides.find(icon); override != m_d->overrides.end()) {
-        if (const auto &overrideIcon = override->locateIcon(); !overrideIcon.isNull()) {
-            return overrideIcon.pixmap(size, QIcon::Normal, QIcon::On);
-        }
-    }
+    assert(QGuiApplication::instance());
 
     if (!static_cast<bool>(scaleFactor)) {
         scaleFactor =
@@ -167,8 +163,15 @@ QPixmap Renderer::pixmap(QChar icon, const QSize &size, const QColor &color, qre
     const auto scaledSize = QSize(size * scaleFactor);
     auto pm = QPixmap(scaledSize);
     pm.fill(QColor(Qt::transparent));
+    auto painter = QPainter(&pm);
+    if (auto override = m_d->overrides.find(icon); override != m_d->overrides.end()) {
+        if (const auto &overrideIcon = override->locateIcon(); !overrideIcon.isNull()) {
+            overrideIcon.paint(&painter, QRect(QPoint(), scaledSize));
+            pm.setDevicePixelRatio(scaleFactor);
+            return pm;
+        }
+    }
     if (*this) {
-        auto painter = QPainter(&pm);
         renderInternally(icon, &painter, QFont(m_d->fontFamilies.front()), QRect(QPoint(), scaledSize), color);
     }
     pm.setDevicePixelRatio(scaleFactor);
