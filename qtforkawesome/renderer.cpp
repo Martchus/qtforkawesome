@@ -9,6 +9,8 @@
 #include <QPaintDevice>
 #include <QPainter>
 
+#include <utility>
+
 /// \brief Contains classes provided by the QtForkAwesome library.
 namespace QtForkAwesome {
 
@@ -43,7 +45,7 @@ const QIcon &IconOverride::locateIcon()
     if (!cachedIcon.isNull()) {
         return cachedIcon;
     }
-    for (const auto &iconName : iconNames) {
+    for (const auto &iconName : std::as_const(iconNames)) {
         cachedIcon = QIcon::fromTheme(iconName);
         if (!cachedIcon.isNull()) {
             return cachedIcon;
