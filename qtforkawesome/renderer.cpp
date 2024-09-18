@@ -188,8 +188,8 @@ QPixmap Renderer::pixmap(Icon icon, const QSize &size, const QColor &color, qrea
  * \remarks
  * - The pixmap will be scaled for the associated paint device or use the global device-dixel-ratio if not paint
  *   device has been associated.
- * - When rendering a QPixmap for a QIcon, better the other overloads with the actual size (and a scale factor of
- *   one).
+ * - When rendering a QPixmap for a QIcon, better use the other overloads with the actual size (and a scale factor
+ *   of one).
  */
 QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QColor &color) const
 {
@@ -201,8 +201,8 @@ QPixmap QtForkAwesome::Renderer::pixmap(QChar icon, const QSize &size, const QCo
  * \remarks
  * - The pixmap will be scaled for the associated paint device or use the global device-dixel-ratio if not paint
  *   device has been associated.
- * - When rendering a QPixmap for a QIcon, better the other overloads with the actual size (and a scale factor of
- *   one).
+ * - When rendering a QPixmap for a QIcon, better use the other overloads with the actual size (and a scale factor
+ *   of one).
  */
 QPixmap Renderer::pixmap(Icon icon, const QSize &size, const QColor &color) const
 {
