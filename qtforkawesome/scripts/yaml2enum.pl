@@ -4,10 +4,14 @@ use warnings;
 use utf8;
 
 # use either YAML::XS or YAML
-my $parse_yaml
-  =  eval { require YAML::XS; \&YAML::XS::Load }
-  // eval { require YAML;     \&YAML::Load     };
-die "Unable to locate YAML::XS or YAML: $@" if $@;
+my @errors;
+my $parse_yaml = eval { require YAML::XSS; \&YAML::XS::Load };
+push @errors, $@ if $@;
+if (!defined $parse_yaml) {
+    $parse_yaml = eval { require YAML; \&YAML::Load };
+    push @errors, $@ if $@;
+}
+die "Unable to locate YAML::XS or YAML:\n" . join('', @errors) unless defined $parse_yaml;
 
 # read CLI args
 my $yaml_file        = $ARGV[0] // '';
