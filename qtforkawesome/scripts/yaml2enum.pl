@@ -5,7 +5,7 @@ use utf8;
 
 # use either YAML::XS or YAML
 my @errors;
-my $parse_yaml = eval { require YAML::XSS; \&YAML::XS::Load };
+my $parse_yaml = eval { require YAML::XS; \&YAML::XS::Load };
 push @errors, $@ if $@;
 if (!defined $parse_yaml) {
     $parse_yaml = eval { require YAML; \&YAML::Load };
