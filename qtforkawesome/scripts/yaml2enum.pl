@@ -11,6 +11,10 @@ if (!defined $parse_yaml) {
     $parse_yaml = eval { require YAML; \&YAML::Load };
     push @errors, $@ if $@;
 }
+if (!defined $parse_yaml) {
+    $parse_yaml = eval { require YAML::Tiny; \&YAML::Tiny::Load };
+    push @errors, $@ if $@;
+}
 die "Unable to locate YAML::XS or YAML:\n" . join('', @errors) unless defined $parse_yaml;
 
 # read CLI args
