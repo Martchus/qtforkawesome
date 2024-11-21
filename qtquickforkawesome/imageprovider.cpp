@@ -35,10 +35,11 @@ QPixmap QuickImageProvider::requestPixmap(const QString &id, QSize *size, const 
         color = QGuiApplication::palette().color(QPalette::Normal, QPalette::Text);
     }
     const auto renderSize = requestedSize.isValid() ? requestedSize : m_defaultSize;
+    const auto scaleFactor = requestedSize.isValid() ? 1.0 : 0.0;
     if (size) {
         *size = renderSize;
     }
-    return m_renderer.pixmap(icon, renderSize, color);
+    return m_renderer.pixmap(icon, renderSize, color, scaleFactor);
 }
 
 QImage QuickImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
