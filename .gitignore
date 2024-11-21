@@ -45,4 +45,4 @@ Makefile*
 
 # clangd
 compile_commands.json
-/.cache
+.cache
