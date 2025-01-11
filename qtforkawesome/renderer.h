@@ -27,6 +27,8 @@ public:
     explicit Renderer(const QByteArray &fontData);
     ~Renderer();
 
+    const QString &fontFilePath() const;
+    void warnIfInvalid() const;
     operator bool() const;
     void render(QChar character, QPainter *painter, const QRect &rect, const QColor &color) const;
     void render(Icon icon, QPainter *painter, const QRect &rect, const QColor &color) const;

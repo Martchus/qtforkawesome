@@ -2,6 +2,8 @@
 
 #include "resources/config.h"
 
+#include <QDebug>
+#include <QFile>
 #include <QFontDatabase>
 #include <QGuiApplication>
 #include <QHash>
@@ -59,6 +61,7 @@ struct Renderer::InternalData {
     static constexpr int invalidId = -1;
 
     int id;
+    QString fontFilePath;
     QStringList fontFamilies;
     QHash<QChar, IconOverride> overrides;
     QPaintDevice *paintDevice;
@@ -108,7 +111,30 @@ Renderer::~Renderer()
 }
 
 /*!
- * \brief Returns whether the render could be initialized correctly.
+ * \brief Returns the path of the font file.
+ * \remarks Returns an empty string when the renderer was constructed from a QByteArray().
+ */
+const QString &Renderer::fontFilePath() const
+{
+    return m_d->fontFilePath;
+}
+
+/*!
+ * \brief Prints a warning using qWarning() if no font could be loaded.
+ */
+void Renderer::warnIfInvalid() const
+{
+    if (!*this) {
+        const auto &path = m_d->fontFilePath;
+        if (!path.isEmpty() && !QFile::exists(path)) {
+            qWarning() << "ForkAwesome font file does not exist";
+        }
+        qWarning() << "Unable to load ForkAwesome font from " << (path.isEmpty() ? QStringLiteral("buffer") : path);
+    }
+}
+
+/*!
+ * \brief Returns whether the render could load the font file.
  */
 Renderer::operator bool() const
 {
