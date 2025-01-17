@@ -30,7 +30,12 @@ QPixmap QuickImageProvider::requestPixmap(const QString &id, QSize *size, const 
     if (!isIconValid(icon)) {
         return QPixmap();
     }
-    auto color = parts.size() > 1 ? QColor(parts.at(1).toString()) : m_defaultColor;
+    auto color = m_defaultColor;
+    if (parts.size() > 1) {
+        if (const auto specifiedColor = QColor(parts.at(1).toString()); specifiedColor.isValid()) {
+            color = specifiedColor;
+        }
+    }
     if (!color.isValid()) {
         color = QGuiApplication::palette().color(QPalette::Normal, QPalette::Text);
     }
