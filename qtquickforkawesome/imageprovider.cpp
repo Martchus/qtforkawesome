@@ -3,8 +3,6 @@
 #include <qtforkawesome/renderer.h>
 #include <qtforkawesome/utils.h>
 
-#include <qtutilities/misc/compat.h>
-
 #include <QGuiApplication>
 #include <QPalette>
 
@@ -22,17 +20,17 @@ QuickImageProvider::QuickImageProvider(
 
 QPixmap QuickImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    const auto parts = QtUtilities::splitRef(id, QChar(':'));
+    const auto parts = QStringView(id).split(QChar(':'));
     if (parts.empty()) {
         return QPixmap();
     }
-    const auto icon = iconFromId(parts.front().toString());
+    const auto icon = iconFromId(parts.front());
     if (!isIconValid(icon)) {
         return QPixmap();
     }
     auto color = m_defaultColor;
     if (parts.size() > 1) {
-        if (const auto specifiedColor = QColor(parts.at(1).toString()); specifiedColor.isValid()) {
+        if (const auto specifiedColor = QColor(parts.at(1)); specifiedColor.isValid()) {
             color = specifiedColor;
         }
     }

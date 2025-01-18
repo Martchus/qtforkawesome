@@ -4,6 +4,8 @@
 #include "./global.h"
 #include "./iconfwd.h"
 
+#include <QStringView>
+
 QT_FORWARD_DECLARE_CLASS(QString)
 
 namespace QtForkAwesome {
@@ -18,6 +20,7 @@ constexpr bool isIconValid(Icon icon)
 }
 
 QT_FORK_AWESOME_EXPORT Icon iconFromId(const QString &id);
+QT_FORK_AWESOME_EXPORT Icon iconFromId(QStringView id);
 
 } // namespace QtForkAwesome
 

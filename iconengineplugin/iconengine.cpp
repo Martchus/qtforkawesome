@@ -5,8 +5,6 @@
 
 #include "resources/config.h"
 
-#include <qtutilities/misc/compat.h>
-
 #include <QGuiApplication>
 #include <QPainter>
 #include <QPalette>
@@ -90,12 +88,12 @@ void IconEngine::addFile(const QString &fileName, const QSize &, QIcon::Mode mod
     if (!fileName.endsWith(QLatin1String(".fa"), Qt::CaseInsensitive)) {
         return;
     }
-    const auto parts = QtUtilities::midRef(fileName, 0, fileName.size() - 3).split(QChar(':'));
+    const auto parts = QStringView(fileName).mid(0, fileName.size() - 3).split(QChar(':'));
     if (parts.empty()) {
         return;
     }
-    m_char = static_cast<IconBaseType>(iconFromId(parts.at(0).toString()));
-    m_color = parts.size() > 1 ? QColor(parts.at(1).toString()) : QColor();
+    m_char = static_cast<IconBaseType>(iconFromId(parts.at(0)));
+    m_color = parts.size() > 1 ? QColor(parts.at(1)) : QColor();
 }
 
 QString IconEngine::key() const
