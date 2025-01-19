@@ -88,7 +88,7 @@ Renderer::InternalData::InternalData(int id)
  */
 Renderer::Renderer(const QString &fontFileName)
     : m_d(std::make_unique<InternalData>(
-        QFontDatabase::addApplicationFont(fontFileName.isEmpty() ? QStringLiteral(":/" META_FONT_FILE_NAME) : fontFileName)))
+          QFontDatabase::addApplicationFont(fontFileName.isEmpty() ? QStringLiteral(":/" META_FONT_FILE_NAME) : fontFileName)))
 {
 }
 
