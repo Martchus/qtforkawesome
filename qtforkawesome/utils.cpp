@@ -12,7 +12,11 @@ namespace QtForkAwesome {
  * \returns Returns the QtForkAwesome::Icon which might be QtForkAwesome::Icon::Invalid in case the
  *          specified \a id is unknown.
  */
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
 Icon iconFromId(QStringView id)
+#else
+Icon iconFromId(const QString &id)
+#endif
 {
     static const auto mapping = QHash<QString, Icon>({
 #include "private/idmapping.h"
@@ -27,9 +31,17 @@ Icon iconFromId(QStringView id)
  * \returns Returns the QtForkAwesome::Icon which might be QtForkAwesome::Icon::Invalid in case the
  *          specified \a id is unknown.
  */
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
 Icon iconFromId(const QString &id)
 {
     return iconFromId(QStringView(id));
 }
+#else
+Icon iconFromId(QStringView id)
+{
+    return iconFromId(id.toString());
+}
+#endif
+
 
 } // namespace QtForkAwesome
