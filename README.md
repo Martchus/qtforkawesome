@@ -1,5 +1,5 @@
 # Qt ForkAwesome
-Library that bundles [ForkAwesome](https://forkaweso.me) for use within Qt
+Library that bundles [ForkAwesome](https://forkaweso.me) icons for use within Qt
 applications
 
 ## Build instructions

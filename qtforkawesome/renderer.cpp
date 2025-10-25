@@ -134,7 +134,7 @@ void Renderer::warnIfInvalid() const
 }
 
 /*!
- * \brief Returns whether the render could load the font file.
+ * \brief Returns whether the renderer could load the font file.
  */
 Renderer::operator bool() const
 {
@@ -271,7 +271,7 @@ void Renderer::setAssociatedPaintDevice(QPaintDevice *paintDevice)
 }
 
 /*!
- * \brief Returns the global instance (which is so far only used by the icon engine plugin).
+ * \brief Returns the global instance (which is currently only used by the icon engine plugin).
  */
 Renderer &Renderer::global()
 {
