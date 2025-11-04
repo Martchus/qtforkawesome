@@ -5,7 +5,7 @@ applications
 ## Build instructions
 
 ### Dependencies
-The library depends on the following Qt modules (version 5.6 or higher):
+The library depends on the following Qt modules (version 5.15 or higher):
 `core`, `gui`
 
 The additional library for Qt Quick integration (currently only providing a
