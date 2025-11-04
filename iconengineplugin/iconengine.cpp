@@ -15,6 +15,11 @@
 #include <QStyleOption>
 #endif
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0) // could be QT_VERSION < QT_VERSION_CHECK(5, 15, 2)
+#define USE_COMPAT_SPLIT_REF
+#include <qtutilities/misc/compat.h>
+#endif
+
 namespace QtForkAwesome {
 
 IconEngine::IconEngine(const Renderer &renderer)
@@ -88,12 +93,21 @@ void IconEngine::addFile(const QString &fileName, const QSize &, QIcon::Mode mod
     if (!fileName.endsWith(QLatin1String(".fa"), Qt::CaseInsensitive)) {
         return;
     }
+#ifndef USE_COMPAT_SPLIT_REF
     const auto parts = QStringView(fileName).mid(0, fileName.size() - 3).split(QChar(':'));
+#else
+    const auto parts = QtUtilities::midRef(fileName, 0, fileName.size() - 3).split(QChar(':'));
+#endif
     if (parts.empty()) {
         return;
     }
+#ifndef USE_COMPAT_SPLIT_REF
     m_char = static_cast<IconBaseType>(iconFromId(parts.at(0)));
     m_color = parts.size() > 1 ? QColor(parts.at(1)) : QColor();
+#else
+    m_char = static_cast<IconBaseType>(iconFromId(parts.at(0).toString()));
+    m_color = parts.size() > 1 ? QColor(parts.at(1).toString()) : QColor();
+#endif
 }
 
 QString IconEngine::key() const
