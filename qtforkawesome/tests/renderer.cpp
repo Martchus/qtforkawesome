@@ -3,6 +3,8 @@
 
 #include <c++utilities/tests/testutils.h>
 
+#include <qtutilities/misc/disablewarningsmoc.h>
+
 #include <QDir>
 #include <QPixmap>
 #include <QtTest/QtTest>
@@ -34,5 +36,6 @@ void RendererTests::testRender()
     hashtag.save(workingDirectory + QStringLiteral("/hashtag.png"));
 }
 
+QT_UTILITIES_DISABLE_WARNINGS_FOR_MOC_INCLUDE
 QTEST_MAIN(RendererTests)
 #include "renderer.moc"
