@@ -119,6 +119,6 @@ it via `add_subdirectory`. Checkout the
 for an example.
 
 ## Copyright notice and license
-Copyright © 2021-2025 Marius Kittler
+Copyright © 2021-2026 Marius Kittler
 
 All code is licensed under [GPL-2-or-later](LICENSE).
