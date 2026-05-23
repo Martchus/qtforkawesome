@@ -57,6 +57,7 @@ const QIcon &IconOverride::locateIcon()
 }
 
 struct Renderer::InternalData {
+    explicit InternalData(const QString &fontFilePath);
     explicit InternalData(int id);
     static constexpr int invalidId = -1;
 
@@ -69,6 +70,14 @@ struct Renderer::InternalData {
 
 Renderer::InternalData::InternalData(int id)
     : id(id)
+    , fontFamilies(id != invalidId ? QFontDatabase::applicationFontFamilies(id) : QStringList())
+    , paintDevice(nullptr)
+{
+}
+
+Renderer::InternalData::InternalData(const QString &fontFilePath)
+    : id(QFontDatabase::addApplicationFont(fontFilePath))
+    , fontFilePath(fontFilePath)
     , fontFamilies(id != invalidId ? QFontDatabase::applicationFontFamilies(id) : QStringList())
     , paintDevice(nullptr)
 {
@@ -87,8 +96,7 @@ Renderer::InternalData::InternalData(int id)
  * \remarks If \a fontFileName is empty, the bundled font file will be used.
  */
 Renderer::Renderer(const QString &fontFileName)
-    : m_d(std::make_unique<InternalData>(
-          QFontDatabase::addApplicationFont(fontFileName.isEmpty() ? QStringLiteral(":/" META_FONT_FILE_NAME) : fontFileName)))
+    : m_d(std::make_unique<InternalData>(fontFileName.isEmpty() ? QStringLiteral(":/" META_FONT_FILE_NAME) : fontFileName))
 {
 }
 
