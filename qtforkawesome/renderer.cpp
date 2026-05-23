@@ -129,7 +129,11 @@ void Renderer::warnIfInvalid() const
         if (!path.isEmpty() && !QFile::exists(path)) {
             qWarning() << "ForkAwesome font file does not exist";
         }
-        qWarning() << "Unable to load ForkAwesome font from " << (path.isEmpty() ? QStringLiteral("buffer") : path);
+        if (m_d->id == m_d->invalidId) {
+            qWarning() << "Unable to load ForkAwesome font from " << (path.isEmpty() ? QStringLiteral("buffer") : path);
+        } else {
+            qWarning() << "No ForkAwesome font families were found, font was loaded from " << (path.isEmpty() ? QStringLiteral("buffer") : path);
+        }
     }
 }
 
