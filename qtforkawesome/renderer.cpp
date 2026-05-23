@@ -171,11 +171,7 @@ static void renderInternally(QChar character, QPainter *painter, const QRawFont 
     const auto dy = rectCenter.y() - (glyphBoundsCenter.y() * scale);
     const auto scaledPath = QTransform().translate(dx, dy).scale(scale, scale).map(glyphPath);
 
-    // fill the path with antialiasing
-    painter->save();
-    painter->setRenderHint(QPainter::Antialiasing);
     painter->fillPath(scaledPath, color);
-    painter->restore();
 }
 /// \endcond
 
