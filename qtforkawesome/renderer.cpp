@@ -4,12 +4,13 @@
 
 #include <QDebug>
 #include <QFile>
-#include <QFontDatabase>
 #include <QGuiApplication>
 #include <QHash>
 #include <QIcon>
 #include <QPaintDevice>
 #include <QPainter>
+#include <QPainterPath>
+#include <QRawFont>
 
 #include <utility>
 
@@ -58,28 +59,24 @@ const QIcon &IconOverride::locateIcon()
 
 struct Renderer::InternalData {
     explicit InternalData(const QString &fontFilePath);
-    explicit InternalData(int id);
-    static constexpr int invalidId = -1;
+    explicit InternalData(const QByteArray &fontData);
 
-    int id;
     QString fontFilePath;
-    QStringList fontFamilies;
     QHash<QChar, IconOverride> overrides;
     QPaintDevice *paintDevice;
+    QRawFont rawFont;
 };
 
-Renderer::InternalData::InternalData(int id)
-    : id(id)
-    , fontFamilies(id != invalidId ? QFontDatabase::applicationFontFamilies(id) : QStringList())
+Renderer::InternalData::InternalData(const QString &fontFilePath)
+    : fontFilePath(fontFilePath)
     , paintDevice(nullptr)
+    , rawFont(fontFilePath, 12)
 {
 }
 
-Renderer::InternalData::InternalData(const QString &fontFilePath)
-    : id(QFontDatabase::addApplicationFont(fontFilePath))
-    , fontFilePath(fontFilePath)
-    , fontFamilies(id != invalidId ? QFontDatabase::applicationFontFamilies(id) : QStringList())
-    , paintDevice(nullptr)
+Renderer::InternalData::InternalData(const QByteArray &fontData)
+    : paintDevice(nullptr)
+    , rawFont(fontData, 12)
 {
 }
 
@@ -104,7 +101,7 @@ Renderer::Renderer(const QString &fontFileName)
  * \brief Constructs a new renderer with the given \a fontData.
  */
 Renderer::Renderer(const QByteArray &fontData)
-    : m_d(std::make_unique<InternalData>(QFontDatabase::addApplicationFont(fontData)))
+    : m_d(std::make_unique<InternalData>(fontData))
 {
 }
 
@@ -113,9 +110,6 @@ Renderer::Renderer(const QByteArray &fontData)
  */
 Renderer::~Renderer()
 {
-    if (QCoreApplication::instance() && m_d->id != InternalData::invalidId) {
-        QFontDatabase::removeApplicationFont(m_d->id);
-    }
 }
 
 /*!
@@ -135,13 +129,9 @@ void Renderer::warnIfInvalid() const
     if (!*this) {
         const auto &path = m_d->fontFilePath;
         if (!path.isEmpty() && !QFile::exists(path)) {
-            qWarning() << "ForkAwesome font file does not exist";
+            qWarning() << "ForkAwesome font file does not exist under:" << path;
         }
-        if (m_d->id == m_d->invalidId) {
-            qWarning() << "Unable to load ForkAwesome font from " << (path.isEmpty() ? QStringLiteral("buffer") : path);
-        } else {
-            qWarning() << "No ForkAwesome font families were found, font was loaded from " << (path.isEmpty() ? QStringLiteral("buffer") : path);
-        }
+        qWarning() << "Unable to load ForkAwesome font from " << (path.isEmpty() ? QStringLiteral("buffer") : path);
     }
 }
 
@@ -150,17 +140,39 @@ void Renderer::warnIfInvalid() const
  */
 Renderer::operator bool() const
 {
-    return !m_d->fontFamilies.empty();
+    return m_d->rawFont.isValid();
 }
 
 /// \cond
-static void renderInternally(QChar character, QPainter *painter, QFont &&font, const QRect &rect, const QColor &color)
+static void renderInternally(QChar character, QPainter *painter, const QRawFont &rawFont, const QRect &rect, const QColor &color)
 {
+    // create a new font to set the size according to the height of rect
+    auto font = QRawFont(rawFont);
     font.setPixelSize(rect.height());
+
+    // compute the glyph index and the path and bounds of the glyph
+    const auto glyphIndexes = font.glyphIndexesForString(QString(character));
+    if (glyphIndexes.isEmpty()) {
+        return;
+    }
+    const auto glyphPath = rawFont.pathForGlyph(glyphIndexes.first());
+    const auto glyphBounds = glyphPath.boundingRect();
+    if (glyphBounds.isEmpty()) {
+        return;
+    }
+
+    // scale the path to render it centered within rect keeping the aspect ratio
+    const auto scaleX = rect.width() / glyphBounds.width();
+    const auto scaleY = rect.height() / glyphBounds.height();
+    const auto scale = qMin(scaleX, scaleY);
+    const auto dx = rect.center().x() - (glyphBounds.center().x() * scale);
+    const auto dy = rect.center().y() - (glyphBounds.center().y() * scale);
+    const auto scaledPath = QTransform().translate(dx, dy).scale(scale, scale).map(glyphPath);
+
+    // fill the path with antialiasing
     painter->save();
-    painter->setFont(font);
-    painter->setPen(color);
-    painter->drawText(rect, QString(character), QTextOption(Qt::AlignCenter));
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->fillPath(scaledPath, color);
     painter->restore();
 }
 /// \endcond
@@ -177,7 +189,7 @@ void QtForkAwesome::Renderer::render(QChar character, QPainter *painter, const Q
         }
     }
     if (*this) {
-        renderInternally(character, painter, QFont(m_d->fontFamilies.front()), rect, color);
+        renderInternally(character, painter, m_d->rawFont, rect, color);
     }
 }
 
@@ -207,7 +219,7 @@ QPixmap Renderer::pixmap(QChar icon, const QSize &size, const QColor &color, qre
     pm.fill(QColor(Qt::transparent));
     if (*this) {
         auto painter = QPainter(&pm);
-        renderInternally(icon, &painter, QFont(m_d->fontFamilies.front()), QRect(QPoint(), scaledSize), color);
+        renderInternally(icon, &painter, m_d->rawFont, QRect(QPoint(), scaledSize), color);
     }
     pm.setDevicePixelRatio(scaleFactor);
     return pm;
