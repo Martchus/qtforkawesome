@@ -165,8 +165,10 @@ static void renderInternally(QChar character, QPainter *painter, const QRawFont 
     const auto scaleX = rect.width() / glyphBounds.width();
     const auto scaleY = rect.height() / glyphBounds.height();
     const auto scale = qMin(scaleX, scaleY);
-    const auto dx = rect.center().x() - (glyphBounds.center().x() * scale);
-    const auto dy = rect.center().y() - (glyphBounds.center().y() * scale);
+    const auto rectCenter = rect.center();
+    const auto glyphBoundsCenter = glyphBounds.center();
+    const auto dx = rectCenter.x() - (glyphBoundsCenter.x() * scale);
+    const auto dy = rectCenter.y() - (glyphBoundsCenter.y() * scale);
     const auto scaledPath = QTransform().translate(dx, dy).scale(scale, scale).map(glyphPath);
 
     // fill the path with antialiasing
