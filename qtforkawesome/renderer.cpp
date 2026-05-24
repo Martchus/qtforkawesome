@@ -7,6 +7,7 @@
 #include <QGuiApplication>
 #include <QHash>
 #include <QIcon>
+#include <QMargins>
 #include <QPaintDevice>
 #include <QPainter>
 #include <QPainterPath>
@@ -143,6 +144,11 @@ Renderer::operator bool() const
     return m_d->rawFont.isValid();
 }
 
+/*!
+ * \brief Margins for rendering; without this extra margin some icons are clipped.
+ */
+static constexpr auto renderMargins = QMargins(1, 1, 1, 1);
+
 /// \cond
 static void renderInternally(QChar character, QPainter *painter, const QRawFont &rawFont, const QRect &rect, const QColor &color)
 {
@@ -162,10 +168,11 @@ static void renderInternally(QChar character, QPainter *painter, const QRawFont 
     }
 
     // scale the path to render it centered within rect keeping the aspect ratio
-    const auto scaleX = rect.width() / glyphBounds.width();
-    const auto scaleY = rect.height() / glyphBounds.height();
+    const auto rectWithMargins = rect - renderMargins;
+    const auto scaleX = rectWithMargins.width() / glyphBounds.width();
+    const auto scaleY = rectWithMargins.height() / glyphBounds.height();
     const auto scale = qMin(scaleX, scaleY);
-    const auto rectCenter = rect.center();
+    const auto rectCenter = rectWithMargins.center();
     const auto glyphBoundsCenter = glyphBounds.center();
     const auto dx = rectCenter.x() - (glyphBoundsCenter.x() * scale);
     const auto dy = rectCenter.y() - (glyphBoundsCenter.y() * scale);
