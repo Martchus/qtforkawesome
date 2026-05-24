@@ -224,6 +224,7 @@ QPixmap Renderer::pixmap(QChar icon, const QSize &size, const QColor &color, qre
     pm.fill(QColor(Qt::transparent));
     if (*this) {
         auto painter = QPainter(&pm);
+        painter.setRenderHint(QPainter::Antialiasing);
         renderInternally(icon, &painter, m_d->rawFont, QRect(QPoint(), scaledSize), color);
     }
     pm.setDevicePixelRatio(scaleFactor);
