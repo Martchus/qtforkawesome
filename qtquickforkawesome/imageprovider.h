@@ -15,8 +15,11 @@ namespace QtForkAwesome {
 class Renderer;
 
 class QT_QUICK_FORK_AWESOME_EXPORT QuickImageProvider : public QQuickImageProvider {
-    Q_PROPERTY(QColor defaultColor defaultColor name WRITE setDefaultColor)
-    Q_PROPERTY(QSize defaultColor defaultSize name WRITE setDefaultSize)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    Q_OBJECT
+    Q_PROPERTY(QColor defaultColor READ defaultColor WRITE setDefaultColor)
+    Q_PROPERTY(QSize defaultSize READ defaultSize WRITE setDefaultSize)
+#endif
 
 public:
     QuickImageProvider(const Renderer &renderer, const QColor &defaultColor = QColor(), const QSize &defaultSize = QSize(64, 64),
@@ -27,7 +30,11 @@ public:
     QColor defaultColor() const;
     QSize defaultSize() const;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 public Q_SLOTS:
+#else
+public:
+#endif
     void setDefaultColor(const QColor &color);
     void setDefaultSize(const QSize &size);
 
