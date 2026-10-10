@@ -11,8 +11,8 @@ The library depends on the following Qt modules (version 5.15 or higher):
 The additional library for Qt Quick integration (currently only providing a
 `QQuickImageProvider`) depends on the following further Qt modules: `quick`
 
-At build time `qtutilities` and `c++utilities` are required. This library is
-built in the same way as these libraries so checkout the `c++utilities`
+At build time, `qtutilities` and `c++utilities` are required. This library is
+built in the same way as these libraries so check out the `c++utilities`
 repository for detailed instructions.
 
 To generate the header with icon definitions, Perl and the module `YAML::XS` (or
@@ -41,21 +41,21 @@ to the CMake invocation. The font file will be built into the library and
 is hence only required at build time.
 
 The Web Open Font Format (the `.woff`/`.woff2` file) might not be supported by
-the font renderer. Notably, Window's native font rendering which Qt uses by
-default does *not* support it. Then it makes sense to use the True Type Font
+the font renderer. Notably, Window's native font rendering, which Qt uses by
+default, does *not* support it. Then it makes sense to use the True Type Font
 instead. Alternatively, one can force the platform plugin to use FreeType2 (e.g.
 by setting `QT_QPA_PLATFORM=windows:fontengine=freetype`). Recent versions of
-FreeType2 even support Web Open Font Format 2 (the `.woff2` file) but this
+FreeType2 even support Web Open Font Format 2 (the `.woff2` file), but this
 requires FreeType2 to be configured with Brotli support.
 
 ### Examples
-Checkout https://github.com/Martchus/PKGBUILDs/tree/master/qtforkawesome for
+Check out https://github.com/Martchus/PKGBUILDs/tree/master/qtforkawesome for
 examples to build for GNU/Linux and Windows against Qt 5 and Qt 6.
 
 ### Further remarks
 As usual with CMake projects, it is possible to control whether to build as
 static or shared library via the `BUILD_SHARED_LIBS` variable. If you build
-qtforkawesome as part of another project and only want to affect qtforkawesome,
+`qtforkawesome` as part of another project and only want to affect `qtforkawesome`,
 you can also use the variable `QT_FORK_AWESOME_BUILD_SHARED_LIBS`.
 
 ## Usage
@@ -74,7 +74,7 @@ renderer.pixmap(QtForkAwesome::Icon::Globe, QSize(64, 64), Qt::black);
 There's also `renderer.render(…)` which takes a `QPainter` directly.
 
 ### Icon engine
-A `QIconEnginePlugin` is provided as well. When it is loaded one can
+A `QIconEnginePlugin` is provided as well. When it is loaded, one can
 create a `QIcon` using a file name with `.fa` extension, e.g.:
 
 ```
@@ -114,7 +114,7 @@ Image {
 
 ### Bundling
 It is also possible to build the library as part of your project. Simply add
-it via `add_subdirectory`. Checkout the
+it via `add_subdirectory`. Check out the
 [Syncthing Tray's project file](https://github.com/Martchus/syncthingtray/blob/master/CMakeLists.txt)
 for an example.
 
