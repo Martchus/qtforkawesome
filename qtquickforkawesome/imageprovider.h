@@ -27,16 +27,16 @@ public:
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize) override;
 
-    QColor defaultColor() const;
-    QSize defaultSize() const;
+    inline QColor defaultColor() const;
+    inline QSize defaultSize() const;
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 public Q_SLOTS:
 #else
 public:
 #endif
-    void setDefaultColor(const QColor &color);
-    void setDefaultSize(const QSize &size);
+    inline void setDefaultColor(const QColor &color);
+    inline void setDefaultSize(const QSize &size);
 
 private:
     const Renderer &m_renderer;

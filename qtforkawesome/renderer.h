@@ -31,7 +31,7 @@ public:
     void warnIfInvalid() const;
     operator bool() const;
     void render(QChar character, QPainter *painter, const QRect &rect, const QColor &color) const;
-    void render(Icon icon, QPainter *painter, const QRect &rect, const QColor &color) const;
+    inline void render(Icon icon, QPainter *painter, const QRect &rect, const QColor &color) const;
 
     QPixmap pixmap(QChar icon, const QSize &size, const QColor &color, qreal scaleFactor) const;
     QPixmap pixmap(Icon icon, const QSize &size, const QColor &color, qreal scaleFactor) const;
@@ -39,9 +39,9 @@ public:
     QPixmap pixmap(Icon icon, const QSize &size, const QColor &color) const;
 
     void addThemeOverride(QChar character, const QString &iconNameInTheme);
-    void addThemeOverride(Icon icon, const QString &iconNameInTheme);
+    inline void addThemeOverride(Icon icon, const QString &iconNameInTheme);
     void addOverride(QChar character, const QIcon &override);
-    void addOverride(Icon icon, const QIcon &override);
+    inline void addOverride(Icon icon, const QIcon &override);
     void setAssociatedPaintDevice(QPaintDevice *paintDevice);
     void clearOverrides();
 
